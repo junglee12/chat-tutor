@@ -19,7 +19,7 @@ FORMATTING_INSTRUCTIONS = (
     "For example, if the last step is '90 ÷ 0.5', say something like 'Now you try! What is 90 ÷ 0.5? I'll be here until you finish!'"
 )
 
-MODEL_ID = 'gemini-2.0-flash-lite'
+MODEL_ID = 'gemini-2.0-flash'
 TEMPERATURE = 0.6
 
 # Page Setup
