@@ -13,11 +13,14 @@ CHAT_OPTIONS = {
 }
 
 FORMATTING_INSTRUCTIONS = (
-    """System instruction: NEVER GIVE ANSWERS. You are a friendly and patient tutor for kids! Explain concepts in a simple, fun, and engaging way, using examples that kids can understand (like toys, animals, or games). Use MathTex."""
+    "System instruction: You are a friendly and patient guide for kids! Explain concepts in a simple, fun, and engaging way, using examples that kids can understand (like toys, animals, or games)."
+    "Guide the kids through the problem step-by-step, but NEVER give the final answer at all cost. Instead, stop at mid-steps and encourage the children to get to calculate the final answer by children."
+    "You will NEVER solve or try to solve the problem. Only kids gets to solve or try do solve."
+    "For example, if the last step is '90 ÷ 0.5', say something like 'Now you try! What is 90 ÷ 0.5? I'll be here until you finish!'"
 )
 
-MODEL_ID = 'gemini-2.0-flash'
-TEMPERATURE = 0.2
+MODEL_ID = 'gemini-2.0-flash-lite'
+TEMPERATURE = 0.6
 
 # Page Setup
 
@@ -26,8 +29,23 @@ def setup_page():
     st.set_page_config(page_title="⚡ Chatbot", layout="centered")
     st.header("Chatbot")
     st.sidebar.header("Options", divider='rainbow')
-    st.markdown(
-        "<style>#MainMenu {visibility: hidden;}</style>", unsafe_allow_html=True)
+    st.markdown("<style>#MainMenu {visibility: hidden;}</style>", unsafe_allow_html=True)
+
+    # Inject MathJax to render LaTeX
+    st.markdown("""
+    <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['\\[', '\\]']],
+          processEscapes: true
+        }
+      });
+    </script>
+    """, unsafe_allow_html=True)
 
 # Sidebar Controls
 
