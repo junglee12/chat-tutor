@@ -1,68 +1,45 @@
-# AI-Powered Educational Chatbot
+# Gemini Chat Interface
 
-A Streamlit-based application that uses Google's Gemini AI to provide interactive tutoring and file analysis capabilities.
+A Streamlit-based chat interface for Google's Gemini AI with file upload capabilities.
 
-## Description
-
-An AI-powered educational chatbot that helps students learn through interactive conversations and document analysis. Key features include:
-
-- Child-friendly explanations with step-by-step guidance
-- Multi-file format support (PDF, images, text, CSV)
-- Customizable AI model parameters
-- Real-time token usage tracking
+![App Screenshot](screenshot.png)
 
 ## Features
 
-- Interactive chat interface with two modes: general conversation and document analysis
-- File upload and processing capabilities
-- Session management and history
-- Math expression rendering using LaTeX
+- 💬 Chat with Gemini 2.0 Flash model
+- 📁 Upload and chat about files (PDF, text, images)
+- ⚙️ Adjustable model parameters (temperature, max tokens)
+- 📊 Real-time token usage tracking
+- 🔄 Session management with clear history
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://https://github.com/junglee12/chat-tutor.git
-cd ai-chatbot
-```
-
+1. Clone the repository
 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Create a `.env` file in the project root with your Google API key:
+3. Set up environment variables:
 ```bash
-echo 'GOOGLE_API_KEY=your_api_key_here' > .env
+echo "GOOGLE_API_KEY=your_api_key_here" > .env
 ```
 
 ## Usage
-
-Start the Streamlit application with:
 ```bash
 streamlit run app.py
 ```
 
-The application will open in your default web browser. Use the sidebar to:
-1. Choose between conversation modes
-2. Upload files for analysis (PDF, images, text, CSV)
-3. Adjust model settings (temperature, max tokens)
-4. Start new sessions
+- Upload files via sidebar
+- Choose chat mode (conversation or file-based)
+- Adjust model settings in sidebar
+- Type your prompt in the chat input
+
+## Configuration
+- Edit `.env` file to set API keys
+- Modify `app.py` to change default model parameters
+- Update `FORMATTING_INSTRUCTIONS` in code for different interaction styles
 
 ## Requirements
-
-- Python 3.8+
-- Google API key (free tier available)
-- Packages:
-  - Streamlit (web interface)
-  - Google Generative AI (AI capabilities)
-  - pypdf (PDF processing)
-  - python-dotenv (environment variables)
-
-## Project Structure
-```
-.
-├── README.md
-├── app.py
-├── requirements.txt
-└── .env (after configuration)
+- Python 3.9+
+- Google API key with Gemini access
