@@ -237,9 +237,6 @@ def main():
                 st.write(prompt)
             handle_chat_input(model, prompt, use_file_contents=True)
 
-    # Display token count
-    st.sidebar.write(f"Total Tokens Used: {st.session_state.total_tokens}")
-
     def clear_session():
         for key in ["chat", "message", "chat_history", "total_tokens", "uploaded_file_contents", "processed_file_names"]:
             if key in st.session_state:
