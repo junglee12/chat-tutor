@@ -22,7 +22,7 @@ An AI-powered educational chatbot that helps students learn through interactive 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ai-chatbot.git
+git clone https://https://github.com/junglee12/chat-tutor.git
 cd ai-chatbot
 ```
 
