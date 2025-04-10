@@ -93,7 +93,6 @@ def process_file(uploaded_file, model):
         content = {"mime_type": file_type, "data": file_bytes, "name": file_name}
         content_parts.append(content)
         token_count = model.count_tokens(f"Placeholder for {file_name}").total_tokens
-        # Removed: st.sidebar.write(f"Loaded '{file_name}' ({file_type}), size: {len(file_bytes)} bytes")
     except Exception as e:
         error_msg = f"Error loading '{file_name}' ({file_type}): {str(e)}"
         st.sidebar.write(error_msg)
@@ -114,8 +113,9 @@ def process_uploaded_files(uploaded_files, model):
             st.session_state.processed_file_names.add(file.name)
     if new_parts:
         st.session_state.uploaded_file_contents.extend(new_parts)
-        st.session_state.chat.history.append(
-            {"role": "user", "parts": new_parts})
+        # Strip 'name' field before appending to chat history
+        history_parts = [{"mime_type": part["mime_type"], "data": part["data"]} for part in new_parts]
+        st.session_state.chat.history.append({"role": "user", "parts": history_parts})
 
 # Chat Handling
 
@@ -144,14 +144,14 @@ def handle_chat_input(model, prompt, use_file_contents=False):
     st.session_state.chat_history.append({"role": "user", "content": prompt})
     st.session_state.total_tokens += model.count_tokens(prompt).total_tokens
     with st.chat_message("model", avatar="🧞‍♀️"):
-        content = [
-            prompt] + st.session_state.uploaded_file_contents if use_file_contents and st.session_state.uploaded_file_contents else prompt
-        response = st.session_state.chat.send_message(content)
+        if use_file_contents and st.session_state.uploaded_file_contents:
+            model_content = [prompt] + [{"mime_type": item["mime_type"], "data": item["data"]} for item in st.session_state.uploaded_file_contents]
+        else:
+            model_content = prompt
+        response = st.session_state.chat.send_message(model_content)
         st.markdown(response.text, unsafe_allow_html=True)
-        st.session_state.total_tokens += model.count_tokens(
-            response.text).total_tokens
-        st.session_state.chat_history.append(
-            {"role": "model", "content": response.text})
+        st.session_state.total_tokens += model.count_tokens(response.text).total_tokens
+        st.session_state.chat_history.append({"role": "model", "content": response.text})
     st.session_state.message += response.text
 
 # Main Logic
