@@ -29,7 +29,8 @@ def setup_page():
     st.set_page_config(page_title="⚡ Chatbot", layout="centered")
     st.header("Chatbot")
     st.sidebar.header("Options", divider='rainbow')
-    st.markdown("<style>#MainMenu {visibility: hidden;}</style>", unsafe_allow_html=True)
+    st.markdown(
+        "<style>#MainMenu {visibility: hidden;}</style>", unsafe_allow_html=True)
 
     # Inject MathJax to render LaTeX
     st.markdown("""
@@ -208,17 +209,42 @@ def main():
         clear_session()
     init_session()
 
-    # Process uploaded files
+    # Track processed file names
+    if "processed_file_names" not in st.session_state:
+        st.session_state.processed_file_names = set()
+
+    # Process only new uploaded files
     if uploaded_files:
         new_parts = []
         for file in uploaded_files:
-            parts, tokens = process_file(file, model)
-            new_parts.extend(parts)
-            st.session_state.total_tokens += tokens
+            if file.name not in st.session_state.processed_file_names:
+                parts, tokens = process_file(file, model)
+                new_parts.extend(parts)
+                st.session_state.total_tokens += tokens
+                st.session_state.processed_file_names.add(file.name)  # Mark as processed
         if new_parts:
             st.session_state.uploaded_file_contents.extend(new_parts)
-            st.session_state.chat.history.append(
-                {"role": "user", "parts": new_parts})
+            st.session_state.chat.history.append({"role": "user", "parts": new_parts})
+
+    # Handle chat modes
+    if choice == CHAT_OPTIONS["files"]:
+        st.subheader("Chat with your files")
+        if 'chat' not in st.session_state:
+            init_chat(model, choice)
+        render_chat_history()
+        if prompt := st.chat_input("Ask a question about your files"):
+            with st.chat_message("user"):
+                st.write(prompt)
+            handle_chat_input(model, prompt, use_file_contents=True)
+
+    # Display token count
+    st.sidebar.write(f"Total Tokens Used: {st.session_state.total_tokens}")
+
+    def clear_session():
+        for key in ["chat", "message", "chat_history", "total_tokens", "uploaded_file_contents", "processed_file_names"]:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.session_state.total_tokens = 0
 
     # Handle chat modes
     if choice == CHAT_OPTIONS["converse"]:
