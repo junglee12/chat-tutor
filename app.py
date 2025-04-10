@@ -8,7 +8,7 @@ import csv
 
 # Constants
 CHAT_OPTIONS = {
-    "converse": "Converse with Gemini 2.0",
+    "converse": "Converse with AI Tutor",
     "files": "Chat with Files",
 }
 
@@ -21,7 +21,7 @@ FORMATTING_INSTRUCTIONS = (
 
 # Default settings
 DEFAULT_MODEL = 'gemini-2.0-flash'
-DEFAULT_TEMPERATURE = 0.6
+DEFAULT_TEMPERATURE = 0.55
 MODEL_OPTIONS = ['gemini-2.0-flash','gemini-2.0-flash-lite']  # Example model names
 
 # Page Setup
