@@ -254,16 +254,6 @@ def main():
                 st.write(prompt)
             handle_chat_input(model, prompt)
 
-    elif choice == CHAT_OPTIONS["files"]:
-        st.subheader("Chat with your files")
-        if 'chat' not in st.session_state:
-            init_chat(model, choice)
-        render_chat_history()
-        if prompt := st.chat_input("Ask a question about your files"):
-            with st.chat_message("user"):
-                st.write(prompt)
-            handle_chat_input(model, prompt, use_file_contents=True)
-
     # Display token count
     st.sidebar.write(f"Total Tokens Used: {st.session_state.total_tokens}")
 
